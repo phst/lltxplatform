@@ -23,7 +23,7 @@ import sys
 
 plat_info = {"win32": ("windows", "dll"),
              "darwin": ("osx", "so"),
-             "linux": ("fontconfig", "so")}
+             "linux2": ("fontconfig", "so")}
 
 comp_flags = {"cl": ["/O2", "/MD", "/W4", "/Wall", "/WX", "/wd4001", "/wd4255", "/wd4668", "/wd4711", "/wd4820"],
               "gcc": ["-std=c99",
@@ -55,6 +55,8 @@ elif sys.platform == "win32":
                            ("NTDDI_VERSION", "0x06000000"), ("_WIN32_WINNT", "0x0600"), ("WINVER", "0x0600")],
                LINKFLAGS=["/WX", "/EXPORT:luaopen_lltxplatform"],
                LIBS=["advapi32", "ole32", "shell32", "shlwapi", "lua51"])
+elif sys.platform == "linux2":
+    env.Append(CPPDEFINES=[("_XOPEN_SOURCE", "500")])
 
 if plat_name == "fontconfig":
     env.Append(LIBS=["fontconfig"])
