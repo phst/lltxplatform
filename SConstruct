@@ -54,6 +54,8 @@ elif sys.platform == "win32":
                            ("NTDDI_VERSION", "0x06000000"), ("_WIN32_WINNT", "0x0600"), ("WINVER", "0x0600")],
                LINKFLAGS=["/WX", "/EXPORT:luaopen_lltxplatform"],
                LIBS=["advapi32", "ole32", "shell32", "shlwapi", "lua51"])
+elif sys.platform == "linux2":
+    env.Append(CPPDEFINES=[("_XOPEN_SOURCE", "500")])
 
 if plat_name == "fontconfig":
     env.Append(LIBS=["fontconfig"])
