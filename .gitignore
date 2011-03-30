@@ -1,0 +1,15 @@
+*~
+*.bak
+*.log
+*.obj
+*.os
+*.dll
+*.lib
+*.exp
+*.so
+*.pdf
+*.synctex.gz
+*.aux
+auto/
+.sconsign.dblite
+README.html
