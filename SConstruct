@@ -23,7 +23,7 @@ import sys
 
 plat_info = {"win32": ("windows", "dll"),
              "darwin": ("osx", "so"),
-             "linux": ("fontconfig", "so")}
+             "linux2": ("fontconfig", "so")}
 
 comp_flags = {"cl": ["/O2", "/MD", "/W4", "/Wall", "/WX", "/wd4001", "/wd4255", "/wd4668", "/wd4711", "/wd4820"],
               "gcc": ["-std=c99",
