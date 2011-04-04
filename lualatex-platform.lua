@@ -30,9 +30,18 @@ local error, warning, info, log = luatexbase.provides_module {
    licence = "Expat"
 }
 
-local native = require "lltxplatform"
+local pcall = pcall
+local require = require
 
 module "lualatex.platform"
 
-get_installed_fonts = native.get_installed_fonts
-get_inactive_fonts = native.get_inactive_fonts
+local status, native = pcall(require, "lltxplatform")
+
+if status then
+   get_installed_fonts = native.get_installed_fonts
+   get_inactive_fonts = native.get_inactive_fonts
+else
+   function get_installed_fonts() end
+   function get_inactive_fonts() end
+   error(native)
+end
