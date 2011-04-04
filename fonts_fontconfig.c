@@ -24,7 +24,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 #include <string.h>
 
-#include <fontconfig.h>
+#include <fontconfig/fontconfig.h>
 
 #include "fonts_impl.h"
 
