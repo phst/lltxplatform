@@ -85,8 +85,8 @@ related to operating system font listing:
     the name of the font as reported by the operating system.  This name is
     platform-dependent and largely arbitrary; there is no guarantee that the
     name is present or meaningful, and the names are not guaranteed to be
-    unique within the fonts array.  On Windows, the string is encoded in UTF-8;
-    on OS X and Linux, the encoding depends on the configuration of the
+    unique within the fonts array.  On Windows and OS X, the string is encoded
+    in UTF-8; on Linux, the encoding depends on the configuration of the
     operating system.  If the font name cannot be obtained, this field is
     ``nil``.
 
