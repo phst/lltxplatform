@@ -32,7 +32,7 @@
   local cctb_ltx = luatexbase.catcodetables.latex
   local cctb_str = luatexbase.catcodetables.string
   local fonts = lualatex.platform.get_installed_fonts()
-  if #fonts > 0 then
+  if fonts and #fonts > 0 then
      tex.sprint(cctb_ltx, [[\begin{itemize}]])
        for k, v in pairs(fonts) do
           tex.tprint({cctb_ltx, [[\item\relax]]}, {cctb_str, v.name, ": ", v.path})
@@ -47,7 +47,7 @@
   local cctb_ltx = luatexbase.catcodetables.latex
   local cctb_str = luatexbase.catcodetables.string
   local fonts = lualatex.platform.get_inactive_fonts()
-  if #fonts > 0 then
+  if fonts and #fonts > 0 then
      tex.sprint(cctb_ltx, [[\begin{itemize}]])
        for k, v in pairs(fonts) do
           tex.tprint({cctb_ltx, [[\item\relax]]}, {cctb_str, v})
