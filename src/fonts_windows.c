@@ -22,12 +22,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <windows.h>
-#include <strsafe.h>
 #include <shlobj.h>
 #include <shlwapi.h>
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <limits.h>
+#include <string.h>
 
 #include "fonts_impl.h"
 
@@ -37,18 +38,18 @@ static char *encode_utf8(LPCWSTR string, unsigned int length);
 static char *encode_legacy(LPCWSTR string, unsigned int length);
 
 
-int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, unsigned int *count) {
+int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const fonts, unsigned int *const count) {
   int status = -1;
-  PWSTR directory = NULL;
-  if (SUCCEEDED(SHGetKnownFolderPath(&FOLDERID_Fonts, 0, NULL, &directory))) {
-    LPCWSTR path = L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+  WCHAR directory[MAX_PATH];
+  if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_FONTS, NULL, SHGFP_TYPE_CURRENT, directory))) {
+    const LPCWSTR path = L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
     HKEY handle;
     if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, path, 0, KEY_QUERY_VALUE, &handle) == ERROR_SUCCESS) {
       DWORD cnt, name_max, value_max;
       if (RegQueryInfoKeyW(handle, NULL, NULL, NULL, NULL, NULL, NULL, &cnt, &name_max, &value_max, NULL, NULL) == ERROR_SUCCESS && cnt > 0) {
-        struct lltxplatform_fontinfo *array = calloc(cnt, sizeof(struct lltxplatform_fontinfo));
-        LPWSTR name = malloc((name_max + 1) * sizeof(WCHAR));
-        LPWSTR value = malloc(value_max);
+        struct lltxplatform_fontinfo *const array = (struct lltxplatform_fontinfo *) calloc(cnt, sizeof(struct lltxplatform_fontinfo));
+        const LPWSTR name = (LPWSTR) malloc((name_max + 1) * sizeof(WCHAR));
+        const LPWSTR value = (LPWSTR) malloc(value_max);
         if (array != NULL) {
           unsigned int i;
           status = 0;
@@ -60,14 +61,14 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
             info->name = NULL;
             info->path = NULL;
             if (RegEnumValueW(handle, i, name, &name_size, NULL, &type, (LPBYTE) value, &value_size) == ERROR_SUCCESS && type == REG_SZ) {
-              unsigned int length = value_size / 2 - 1;
+              const unsigned int length = value_size / 2 - 1;
               info->name = encode_utf8(name, name_size);
               value[length] = L'\0';
               if (PathIsRelativeW(value)) {
                 WCHAR buffer[MAX_PATH];
-                size_t length = 0;
-                if (SUCCEEDED(StringCchCopyW(buffer, MAX_PATH, directory)) && PathAppendW(buffer, value) && SUCCEEDED(StringCchLengthW(buffer, MAX_PATH, &length))) {
-                  info->path = encode_legacy(buffer, (unsigned int) length);
+				wcscpy(buffer, directory);
+                if (PathAppendW(buffer, value)) {
+                  info->path = encode_legacy(buffer, (unsigned int) wcslen(buffer));
                 }
               } else {
                 info->path = encode_legacy(value, length);
@@ -82,27 +83,26 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
       }
       RegCloseKey(handle);
     }
-    CoTaskMemFree(directory);
   }
   return status;
 }
 
 
-int lltxplatform_get_inactive_fonts_impl(char ***fonts, unsigned int *count) {
+int lltxplatform_get_inactive_fonts_impl(char ***const fonts, unsigned int *const count) {
   int status = -1;
-  LPCWSTR path = L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Font Management";
+  const LPCWSTR path = L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Font Management";
   HKEY handle;
-  DWORD result = RegOpenKeyExW(HKEY_CURRENT_USER, path, 0, KEY_QUERY_VALUE, &handle);
+  LONG result = RegOpenKeyExW(HKEY_CURRENT_USER, path, 0, KEY_QUERY_VALUE, &handle);
   if (result == ERROR_SUCCESS) {
-    LPCWSTR name = L"Inactive Fonts";
+    const LPCWSTR name = L"Inactive Fonts";
     DWORD type, size;
     result = RegQueryValueExW(handle, name, NULL, &type, NULL, &size);
     if (result == ERROR_SUCCESS && type == REG_MULTI_SZ) {
-      LPWSTR buffer = (LPWSTR) malloc(size);
+      const LPWSTR buffer = (LPWSTR) malloc(size);
       if (buffer != NULL) {
         result = RegQueryValueExW(handle, name, NULL, &type, (LPBYTE) buffer, &size);
         if (result == ERROR_SUCCESS && type == REG_MULTI_SZ) {
-          unsigned int length = size / sizeof(WCHAR);
+          const unsigned int length = size / sizeof(WCHAR);
           unsigned int cnt = 0;
           unsigned int i;
           for (i = 0; i < length - 1; ++i) {
@@ -110,12 +110,12 @@ int lltxplatform_get_inactive_fonts_impl(char ***fonts, unsigned int *count) {
           }
           *count = cnt;
           if (cnt > 0) {
-            char **array = calloc(cnt, sizeof(char *));
+            char **const array = (char **) calloc(cnt, sizeof(char *));
             if (array != NULL) {
               unsigned int j = 0;
               status = 0;
               for (i = 0; i < cnt && j < length - 1; ++i) {
-                unsigned int k = j;
+                const unsigned int k = j;
                 while (j < length - 1 && buffer[j] != L'\0') ++j;
                 ++j;
                 array[i] = encode_utf8(&buffer[k], j - k);
@@ -144,11 +144,13 @@ int lltxplatform_get_inactive_fonts_impl(char ***fonts, unsigned int *count) {
 }
 
 
-static char *encode(LPCWSTR string, unsigned int length, UINT encoding, DWORD flags, LPBOOL default_char_used) {
-  unsigned int size = 3 * length + 1;
-  char *buffer = malloc(size);
+static char *encode(const LPCWSTR string, const unsigned int length, const UINT encoding, const DWORD flags, const LPBOOL default_char_used) {
+  const unsigned int size = 3 * length + 1;
+  char *buffer = NULL;
+  if (size < INT_MAX) {
+  buffer = (char *) malloc(size);
   if (buffer != NULL) {
-    int result = WideCharToMultiByte(encoding, flags, string, length, buffer, size, NULL, default_char_used);
+    const int result = WideCharToMultiByte(encoding, flags, string, (int) length, buffer, (int) size, NULL, default_char_used);
     if (result > 0 && (unsigned int) result < size - 1) {
       buffer[result] = '\0';
     } else {
@@ -156,17 +158,18 @@ static char *encode(LPCWSTR string, unsigned int length, UINT encoding, DWORD fl
       buffer = NULL;
     }
   }
+  }
   return buffer;
 }
 
 
-static char *encode_utf8(LPCWSTR string, unsigned int length) {
-  return encode(string, length, CP_UTF8, WC_ERR_INVALID_CHARS, NULL);
+static char *encode_utf8(const LPCWSTR string, const unsigned int length) {
+  return encode(string, length, CP_UTF8, 0, NULL);
 }
 
 
-static char *encode_legacy(LPCWSTR string, unsigned int length) {
-  UINT encoding = AreFileApisANSI() ? CP_ACP : CP_OEMCP;
+static char *encode_legacy(const LPCWSTR string, const unsigned int length) {
+  const UINT encoding = AreFileApisANSI() ? CP_ACP : CP_OEMCP;
   BOOL default_char_used = FALSE;
   char *result = encode(string, length, encoding, WC_NO_BEST_FIT_CHARS, &default_char_used);
   if (result != NULL && default_char_used) {
