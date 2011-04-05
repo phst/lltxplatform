@@ -21,10 +21,18 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <lua.h>
 #include <lauxlib.h>
 
 #include "fonts.h"
+
+#ifndef PACKAGE
+#define PACKAGE "lltxplatform"
+#endif
 
 
 extern int luaopen_lltxplatform(lua_State *L);
@@ -38,6 +46,6 @@ static const luaL_reg functions[] = {
 
 
 int luaopen_lltxplatform(lua_State *L) {
-  luaL_register(L, "lltxplatform", functions);
+  luaL_register(L, PACKAGE, functions);
   return 1;
 }
