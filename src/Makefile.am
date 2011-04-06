@@ -19,14 +19,14 @@ AM_CPPFLAGS = -D_XOPEN_SOURCE=500
 endif
 endif
 
-pkglib_LTLIBRARIES = lltxplatform.la
+lib_LTLIBRARIES = lltxplatform.la
 lltxplatform_la_SOURCES = main.c fonts.h fonts.c fonts_impl.h
 lltxplatform_la_LDFLAGS = -module
 
 if PLAT_WINDOWS
 lltxplatform_la_SOURCES += fonts_windows.c
 lltxplatform_la_LIBADD = -ladvapi32 -lshell32 -lshlwapi -llua51
-## lltxplatform_la_LDFLAGS += /WX /EXPORT:luaopen_lltxplatform
+lltxplatform_la_LDFLAGS += -no-undefined -export-symbols-regex luaopen_lltxplatform
 else
 if PLAT_OSX
 lltxplatform_la_SOURCES += fonts_osx.c
