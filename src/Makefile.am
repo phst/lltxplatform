@@ -25,7 +25,6 @@ lltxplatform_la_LDFLAGS = -module
 
 if PLAT_WINDOWS
 lltxplatform_la_SOURCES += fonts_windows.c
-lltxplatform_la_LIBADD = -ladvapi32 -lshell32 -lshlwapi -llua51
 lltxplatform_la_LDFLAGS += -no-undefined -export-symbols-regex luaopen_lltxplatform
 else
 if PLAT_OSX
@@ -34,6 +33,5 @@ lltxplatform_la_LDFLAGS += -framework CoreFoundation -framework ApplicationServi
                            -undefined dynamic_lookup
 else
 lltxplatform_la_SOURCES += fonts_fontconfig.c
-lltxplatform_la_LIBADD = -lfontconfig
 endif
 endif

@@ -21,10 +21,18 @@ case "$host_os" in
      linux*)           os_type=linux   ;;
      *)                os_type=unknown ;;
 esac
-if test windows = "$os_type"
-then
-AC_CHECK_LIB([lua51], [lua_newstate], [], [AC_MSG_ERROR([lua library not found])])
-fi
+case "$os_type" in
+     windows)
+        AC_CHECK_LIB([advapi32], [RegOpenKeyExW], [], [AC_MSG_ERROR([advapi32 library not found])])
+        AC_CHECK_LIB([shell32], [SHGetFolderPathW], [], [AC_MSG_ERROR([shell32 library not found])])
+        AC_CHECK_LIB([shlwapi], [PathAppendW], [], [AC_MSG_ERROR([shlwapi library not found])])
+        AC_CHECK_LIB([lua51], [lua_newstate], [], [AC_MSG_ERROR([lua library not found])])
+        ;;
+     linux)
+        AC_CHECK_HEADER([fontconfig/fontconfig.h])
+        AC_CHECK_LIB([fontconfig], [FcFontList], [], [AC_MSG_ERROR([fontconfig library not found])])
+        ;;
+esac
 AM_CONDITIONAL(PLAT_WINDOWS, [test windows = "$os_type"])
 AM_CONDITIONAL(PLAT_OSX, [test osx = "$os_type"])
 AM_CONDITIONAL(PLAT_LINUX, [test linux = "$os_type"])

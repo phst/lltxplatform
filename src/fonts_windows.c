@@ -66,7 +66,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const f
               value[length] = L'\0';
               if (PathIsRelativeW(value)) {
                 WCHAR buffer[MAX_PATH];
-				wcscpy(buffer, directory);
+                wcscpy(buffer, directory);
                 if (PathAppendW(buffer, value)) {
                   info->path = encode_legacy(buffer, (unsigned int) wcslen(buffer));
                 }
