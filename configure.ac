@@ -11,10 +11,10 @@ AC_PROG_LIBTOOL
 AC_C_CONST
 AC_TYPE_SIZE_T
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stddef.h stdlib.h limits.h string.h])
+AC_CHECK_HEADERS([stddef.h stdlib.h limits.h string.h], [], [AC_MSG_ERROR([required C headers not found])])
 AC_FUNC_MALLOC
-AC_CHECK_FUNCS([strdup])
-AC_CHECK_HEADER([lua.h])
+AC_CHECK_FUNCS([strdup], [], [AC_MSG_ERROR([strdup function not found])])
+AC_CHECK_HEADERS([lua.h], [], [AC_MSG_ERROR([lua header not found])])
 case "$host_os" in
      mingw32*|cygwin*) os_type=windows ;;
      darwin*)          os_type=osx     ;;
@@ -29,7 +29,7 @@ case "$os_type" in
         AC_CHECK_LIB([lua51], [lua_newstate], [], [AC_MSG_ERROR([lua library not found])])
         ;;
      linux)
-        AC_CHECK_HEADER([fontconfig/fontconfig.h])
+        AC_CHECK_HEADER([fontconfig/fontconfig.h], [], [AC_MSG_ERROR([fontconfig header not found])])
         AC_CHECK_LIB([fontconfig], [FcFontList], [], [AC_MSG_ERROR([fontconfig library not found])])
         ;;
 esac
