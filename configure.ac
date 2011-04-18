@@ -15,6 +15,15 @@ AC_CHECK_HEADERS([stddef.h stdlib.h limits.h string.h])
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([strdup])
 AC_CHECK_HEADER([lua.h])
+
+AC_ARG_VAR([RST2HTML], [command for converting reStructuredText to HTML])
+AC_CHECK_PROGS([RST2HTML], [rst2html.py rst2html], [INVALID])
+
+if test INVALID = "$RST2HTML"
+then
+  AC_MSG_ERROR([rst2html not found])
+fi
+
 case "$host_os" in
      mingw32*|cygwin*) os_type=windows ;;
      darwin*)          os_type=osx     ;;

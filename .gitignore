@@ -37,4 +37,6 @@ config.h
 *.synctex.gz
 *.aux
 
+lualatex-platform.html
+
 auto/
