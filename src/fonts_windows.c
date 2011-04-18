@@ -119,7 +119,7 @@ int lltxplatform_get_inactive_fonts_impl(char ***const fonts, unsigned int *cons
                 while (j < length - 1 && buffer[j] != L'\0') ++j;
                 ++j;
                 array[i] = encode_utf8(&buffer[k], j - k);
-                }
+              }
               *fonts = array;
             }
           } else {
@@ -148,16 +148,16 @@ static char *encode(const LPCWSTR string, const unsigned int length, const UINT 
   const unsigned int size = 3 * length + 1;
   char *buffer = NULL;
   if (size < INT_MAX) {
-  buffer = (char *) malloc(size);
-  if (buffer != NULL) {
-    const int result = WideCharToMultiByte(encoding, flags, string, (int) length, buffer, (int) size, NULL, default_char_used);
-    if (result > 0 && (unsigned int) result < size - 1) {
-      buffer[result] = '\0';
-    } else {
-      free(buffer);
-      buffer = NULL;
+    buffer = (char *) malloc(size);
+    if (buffer != NULL) {
+      const int result = WideCharToMultiByte(encoding, flags, string, (int) length, buffer, (int) size, NULL, default_char_used);
+      if (result > 0 && (unsigned int) result < size - 1) {
+        buffer[result] = '\0';
+      } else {
+        free(buffer);
+        buffer = NULL;
+      }
     }
-  }
   }
   return buffer;
 }
