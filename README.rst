@@ -1,8 +1,8 @@
 The ``lualatex-platform`` package
 =================================
 
-LuaTeX does not contain platform-specific code, and while often
-platform-specific problems can be handled purely in Lua, it sometimes happens
+LuaTeX_ does not contain platform-specific code, and while often
+platform-specific problems can be handled purely in Lua_, it sometimes happens
 that access to the native operating system API is required.  For such tasks,
 Lua allows loading *extension modules* written in C (or other languages
 provided that they can produce a dynamic library that exports a certain C-style
@@ -11,36 +11,39 @@ module that is usable from both Lua and LuaTeX and adds a small set of features
 not available otherwise.  At the moment, it merely supports listing the fonts
 known to the operating system.
 
+.. _Lua: http://lua.org/
+.. _LuaTeX: http://luatex.org/
+
 
 Installation
 ------------
 
-The whole bundle consists of a LaTeX package ``lualatex-platform.sty``, a
-LuaLaTeX module ``lualatex-platform.lua``, and the actual C extension module
+The whole bundle consists of a LaTeX_ package ``lualatex-platform.sty``, a
+LuaLaTeX_ module ``lualatex-platform.lua``, and the actual C extension module
 ``lltxplatform.(dll|so)``.  The extension module should compile for recent
-versions of Windows, OS X, and Linux.  If you have ``scons`` installed, you can
-compile the module with::
+versions of Windows (with MinGW_), OS X, and Linux.  The compilation process is
+based on the `GNU build system`_, so you should be able to compile the module with
+the commands::
 
-  scons luainc=‹path to Lua headers›
+  ./configure && make
 
-If the Lua headers (``lua.h`` etc.) are present in a standard include
-directory, you can leave out the ``luainc=‹…›`` argument.
-
-On Windows, the compiler needs to access the Lua import library
-(``lua51.lib``).  If that library is not found in the standard library
-directories, you need to specify the path on the command line::
-
-  scons luainc=‹path to Lua headers› lualib=‹path to Lua library›
-
-On Linux, the compiler needs to access the FontConfig header files and library.
-If they are not present in the standard directories, you should provide the
-respective directories on the command line::
-
-  scons fcinc=‹path to FontConfig headers› fclib=‹path to FontConfig libraries›
+The standard C headers and the Lua headers (``lua.h`` etc.) must be present in
+the include path.  On Windows, the compiler needs to access the Lua import
+library (``lua51.lib`` or ``liblua51.a``), which must be located in the library
+search path.  Run ``./configure --help`` for more options.  On Linux, the
+compiler needs to access the FontConfig_ header files
+(``fontconfig/fontconfig.h``) and library (``libfontconfig.so``), which must be
+present in the respective search paths.
 
 After compiling, make sure that the files ``lualatex-platform.sty``,
 ``lualatex-platform.lua``, and ``lltxplatform.(dll|so)`` can be found by
 LuaLaTeX.
+
+.. _LaTeX: http://www.latex-project.org/
+.. _LuaLaTeX: http://mirror.ctan.org/info/luatex/lualatex-doc/lualatex-doc.pdf
+.. _GNU build system: http://en.wikipedia.org/wiki/GNU_build_system
+.. _MinGW: http://mingw.org/
+.. _FontConfig: http://fontconfig.org/
 
 
 Usage
@@ -97,11 +100,11 @@ related to operating system font listing:
     names are assumed to be relative to the operating system font directory.
     There is no guarantee about whether the path is relative or which path
     syntax is used.  On Windows, the string is encoded in the legacy 8-bit file
-    system encoding because the C standard library functions in the Microsoft
-    runtime don’t accept Unicode strings; if the file name cannot be
-    represented in the legacy encoding, this field is ``nil``.  On OS X and
-    Linux, the string is encoded in the current file system encoding.  If the
-    path cannot be obtained, this field is ``nil``.
+    system encoding (“`ANSI code page`_”) because the C standard library
+    functions in the Microsoft runtime don’t accept Unicode strings; if the
+    file name cannot be represented in the legacy encoding, this field is
+    ``nil``.  On OS X and Linux, the string is encoded in the current file
+    system encoding.  If the path cannot be obtained, this field is ``nil``.
 
   The array is in arbitrary order, and duplicates are possible.
 
@@ -114,3 +117,5 @@ related to operating system font listing:
   guarantee that the names returned by ``get_inactive_fonts()`` correspond to
   actual fonts installed in the system, or to the font names returned by
   ``get_installed_fonts()``.  The font names are encoded in UTF-8.
+
+.. _ANSI code page: http://en.wikipedia.org/wiki/Windows_code_page
