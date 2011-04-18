@@ -30,10 +30,10 @@ the commands::
 The standard C headers and the Lua headers (``lua.h`` etc.) must be present in
 the include path.  On Windows, the compiler needs to access the Lua import
 library (``lua51.lib`` or ``liblua51.a``), which must be located in the library
-search path.  Run ``./configure --help`` for more options.  On Linux, the
-compiler needs to access the FontConfig_ header files
-(``fontconfig/fontconfig.h``) and library (``libfontconfig.so``), which must be
-present in the respective search paths.
+search path.  On Linux, the compiler needs to access the FontConfig_ header
+files (``fontconfig/fontconfig.h``) and library (``libfontconfig.so``), which
+must be present in the respective search paths.  Run ``./configure --help`` for
+more options.
 
 After compiling, make sure that the files ``lualatex-platform.sty``,
 ``lualatex-platform.lua``, and ``lltxplatform.(dll|so)`` can be found by
