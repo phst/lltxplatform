@@ -39,4 +39,6 @@ config.h
 
 lualatex-platform.html
 
+test-*.lst
+
 auto/
