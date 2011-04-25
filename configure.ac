@@ -31,10 +31,11 @@ fi
 
 [
 case "$host_os" in
-     mingw32*|cygwin*) os_type=windows ;;
-     darwin*)          os_type=osx     ;;
-     linux*)           os_type=linux   ;;
-     *)                os_type=unknown ;;
+  mingw*|cygwin*) os_type=windows ;;
+  darwin1[01].*)  os_type=osx106  ;;
+  darwin9.*)      os_type=osx105  ;;
+  linux*)         os_type=linux   ;;
+  *)              os_type=unknown ;;
 esac
 ]
 
@@ -52,7 +53,8 @@ case "$os_type" in
 esac
 
 AM_CONDITIONAL(PLAT_WINDOWS, [test windows = "$os_type"])
-AM_CONDITIONAL(PLAT_OSX, [test osx = "$os_type"])
+AM_CONDITIONAL(PLAT_OSX_10_6, [test osx106 = "$os_type"])
+AM_CONDITIONAL(PLAT_OSX_10_5, [test osx105 = "$os_type"])
 AM_CONDITIONAL(PLAT_LINUX, [test linux = "$os_type"])
 
 AC_OUTPUT
