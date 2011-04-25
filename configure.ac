@@ -41,9 +41,6 @@ esac
 
 case "$os_type" in
   windows)
-    AC_CHECK_LIB([advapi32], [RegOpenKeyExW], [], [AC_MSG_ERROR([advapi32 library not found])])
-    AC_CHECK_LIB([shell32], [SHGetFolderPathW], [], [AC_MSG_ERROR([shell32 library not found])])
-    AC_CHECK_LIB([shlwapi], [PathAppendW], [], [AC_MSG_ERROR([shlwapi library not found])])
     AC_CHECK_LIB([lua51], [lua_newstate], [], [AC_MSG_ERROR([lua library not found])])
     ;;
   linux)

@@ -15,7 +15,8 @@ if PLAT_WINDOWS
 AM_CPPFLAGS = -DNOMINMAX -DSTRICT -DUNICODE -D_UNICODE -DWIN32_LEAN_AND_MEAN \
               -DNTDDI_VERSION=0x05010000 -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -D_WIN32_IE=0x0600
 lltxplatform_la_SOURCES += fonts_windows.c
-lltxplatform_la_LDFLAGS += -no-undefined -export-symbols-regex luaopen_lltxplatform
+lltxplatform_la_LDFLAGS += -ladvapi32 -lshell32 -lshlwapi \
+                           -no-undefined -export-symbols-regex luaopen_lltxplatform
 else
 if PLAT_OSX_10_6
 AM_CPPFLAGS = -DCF_EXCLUDE_CSTD_HEADERS
