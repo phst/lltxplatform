@@ -93,7 +93,7 @@ You can also load the Lua module directly::
 
 or, from Lua::
 
-  luatexbase.require_module "lualatex-platform"
+  luatexbase.require_module("lualatex-platform")
 
 After the module has been loaded, the table ``lualatex.platform`` contains the
 functions described below.
@@ -131,7 +131,7 @@ related to operating system font listing:
     names are assumed to be relative to the operating system font directory.
     There is no guarantee about whether the path is relative or which path
     syntax is used.  On Windows, the string is encoded in the legacy 8-bit file
-    system encoding (“`ANSI code page`_”) because the C standard library
+    system encoding (“`ANSI code page`_”) because the standard C library
     functions in the Microsoft runtime don’t accept Unicode strings; if the
     file name cannot be represented in the legacy encoding, this field is
     ``nil``.  On OS X and Linux, the string is encoded in the current file

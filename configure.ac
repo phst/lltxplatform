@@ -50,9 +50,9 @@ case "$os_type" in
     ;;
 esac
 
-AM_CONDITIONAL(PLAT_WINDOWS, [test windows = "$os_type"])
-AM_CONDITIONAL(PLAT_OSX_10_6, [test osx106 = "$os_type"])
-AM_CONDITIONAL(PLAT_OSX_10_5, [test osx105 = "$os_type"])
-AM_CONDITIONAL(PLAT_LINUX, [test linux = "$os_type"])
+AM_CONDITIONAL([PLAT_WINDOWS], [test windows = "$os_type"])
+AM_CONDITIONAL([PLAT_OSX_10_6], [test osx106 = "$os_type"])
+AM_CONDITIONAL([PLAT_OSX_10_5], [test osx105 = "$os_type"])
+AM_CONDITIONAL([PLAT_LINUX], [test linux = "$os_type"])
 
 AC_OUTPUT
