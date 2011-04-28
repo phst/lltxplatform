@@ -67,7 +67,8 @@ more options.
 
 After compiling, make sure that the files ``lualatex-platform.sty``,
 ``lualatex-platform.lua``, and ``lltxplatform.(dll|so)`` can be found by
-LuaLaTeX.
+LuaLaTeX.  On Windows, the native library must be able to find the Lua runtime
+library ``lua51.dll``.
 
 .. _LaTeX: http://www.latex-project.org/
 .. _LuaLaTeX: http://mirror.ctan.org/info/luatex/lualatex-doc/lualatex-doc.pdf
