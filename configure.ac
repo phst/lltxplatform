@@ -22,11 +22,12 @@ AC_CHECK_FUNCS([strdup], [], [AC_MSG_ERROR([strdup function not found])])
 AC_CHECK_HEADERS([lua.h], [], [AC_MSG_ERROR([lua header not found])])
 
 AC_ARG_VAR([RST2HTML], [command for converting reStructuredText to HTML])
-AC_CHECK_PROGS([RST2HTML], [rst2html.py rst2html], [INVALID])
+AC_CHECK_PROGS([RST2HTML], [rst2html.py rst2html], [NOTFOUND])
+AM_CONDITIONAL([HAVE_RST2HTML], [test NOTFOUND != "$RST2HTML"])
 
-if test INVALID = "$RST2HTML"
+if test NOTFOUND = "$RST2HTML"
 then
-  AC_MSG_ERROR([rst2html not found])
+  AC_MSG_NOTICE([rst2html not found; HTML version of manual will not be built])
 fi
 
 [
