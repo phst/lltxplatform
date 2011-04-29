@@ -16,6 +16,8 @@ else
     libext=so
 fi
 
+make
+
 install -v -d "$pkgdir"
 install -v -c -m 644 lualatex-platform.lua "$pkgdir"
 
