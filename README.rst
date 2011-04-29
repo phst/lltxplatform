@@ -48,6 +48,9 @@ under the conditions of the `Expat (MIT) license`_, which is reprinted below:
 Installation
 ------------
 
+The ``lualatex-platform`` package is hosted_ on GitHub; please report any
+errors at the `issue tracker`_.
+
 The whole bundle consists of a LaTeX_ package ``lualatex-platform.sty``, a
 LuaLaTeX_ module ``lualatex-platform.lua``, and the actual C extension module
 ``lltxplatform.(dll|so)``.  The extension module should compile for recent
@@ -70,6 +73,8 @@ After compiling, make sure that the files ``lualatex-platform.sty``,
 LuaLaTeX.  On Windows, the native library must be able to find the Lua runtime
 library ``lua51.dll``.
 
+.. _hosted: https://github.com/phst/lltxplatform
+.. _issue tracker: https://github.com/phst/lltxplatform/issues
 .. _LaTeX: http://www.latex-project.org/
 .. _LuaLaTeX: http://mirror.ctan.org/info/luatex/lualatex-doc/lualatex-doc.pdf
 .. _GNU build system: http://en.wikipedia.org/wiki/GNU_build_system
