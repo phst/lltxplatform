@@ -42,4 +42,5 @@ lualatex-platform.html
 
 test-*.lst
 
+texmf-dist/
 auto/
