@@ -15,7 +15,7 @@ build() {
     shift
     export build_dir="$PWD/build/$arch"
     export stage_dir="$PWD/stage/$arch"
-    if [[ "$configure" == 1 ]]
+    if [[ "$configure" == 1 || ! -d "$build_dir" ]]
     then
         mkdir -v -p "$build_dir" "$stage_dir"
         (
