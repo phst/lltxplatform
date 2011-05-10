@@ -16,7 +16,9 @@ depcomp
 
 .sconsign.dblite
 
+lltxplatform.so
 lualatex-platform.html
+
 *.pdf
 *.synctex.gz
 *.aux
