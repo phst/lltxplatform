@@ -22,5 +22,6 @@ if [[ -n "$arch" ]]
 then
     echo "$arch"
 else
+    echo "Could not determine native TeX Live architecture from system type $system and machine type $machine" >&2
     exit 1
 fi
