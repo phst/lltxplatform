@@ -23,14 +23,14 @@ AM_CPPFLAGS = -DCF_EXCLUDE_CSTD_HEADERS
 AM_CFLAGS += -fno-common
 lltxplatform_la_SOURCES += fonts_coretext.c
 lltxplatform_la_LDFLAGS += -framework CoreFoundation -framework ApplicationServices \
-                           -undefined dynamic_lookup
+                           -bundle -undefined dynamic_lookup
 else
 if PLAT_OSX_10_5
 AM_CPPFLAGS = -DCF_EXCLUDE_CSTD_HEADERS
-AM_CFLAGS += -fno-common
+AM_CFLAGS += -fno-common -arch i386 -arch ppc -force_cpusubtype_ALL
 lltxplatform_la_SOURCES += fonts_ats.c
 lltxplatform_la_LDFLAGS += -framework CoreFoundation -framework ApplicationServices \
-                           -undefined dynamic_lookup
+                           -bundle -undefined dynamic_lookup
 else
 AM_CPPFLAGS = -D_XOPEN_SOURCE=500
 lltxplatform_la_SOURCES += fonts_fontconfig.c
