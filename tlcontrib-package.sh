@@ -6,6 +6,7 @@ shopt -s failglob
 
 package=lualatex-platform
 library=lltxplatform
+version=0
 root=texmf-dist
 rundir="$root/tex/lualatex/$package"
 docdir="$root/doc/lualatex/$package"
@@ -30,10 +31,18 @@ base_pkg() {
 binary_pkg() {
     local arch="$1"
     local libdir="bin/$arch/lib/lualatex/lua/$package"
-    [[ "$arch" == win32 ]] && local libext=dll || local libext=so
+    if [[ "$arch" == win32 ]]
+    then
+        local libext=dll
+        local suffix="-$version"
+    else
+        local libext=so
+        local suffix=''
+    fi
     local libfile="$library.$libext"
+    local libsource="$library$suffix.$libext"
     install -v -d "$libdir"
-    install -v -c -m 755 "stage/$arch/lib/$libfile" "$libdir"
+    install -v -c -m 755 "stage/$arch/lib/$libsource" "$libdir/$libfile"
     zip -v -r "tlcontrib-$arch.zip" "$libdir/$libfile"
 }
 
