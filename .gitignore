@@ -24,6 +24,7 @@ lualatex-platform.html
 *.aux
 
 test-*.lst
+built-archs.lst
 
 build/
 stage/

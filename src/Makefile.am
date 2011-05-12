@@ -8,7 +8,7 @@ AM_CFLAGS = -std=c99 \
             -g2 -O3
 
 lib_LTLIBRARIES = lltxplatform.la
-lltxplatform_la_SOURCES = main.c fonts.h fonts.c fonts_impl.h
+lltxplatform_la_SOURCES = main.c malloc.c fonts.h fonts.c fonts_impl.h
 lltxplatform_la_LDFLAGS = -module
 
 if PLAT_WINDOWS
