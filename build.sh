@@ -41,8 +41,12 @@ build "$native_arch" "$@"
 case "$native_arch" in
     x86_64-darwin)
         build universal-darwin --disable-dependency-tracking --host=i386-apple-darwin9.0 "$@" ;;
+    x86_64-linux)
+	prefix=i486-mingw32
+	which "$prefix-gcc" > /dev/null && build win32 "--host=$prefix" "$@"
+	build i386-linux --host=i386-linux 'CC=gcc -m32' "$@" ;;
     i386-linux)
         prefix=i586-mingw32msvc
         which "$prefix-gcc" > /dev/null && build win32 "--host=$prefix" "$@"
-        build x86_64-linux --host=x86_64-linux CFLAGS=-m64 "$@" ;;
+        build x86_64-linux --host=x86_64-linux 'CC=gcc -m64' "$@" ;;
 esac
