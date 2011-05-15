@@ -4,20 +4,12 @@ set -e
 
 rm -f built-archs.lst
 
-if [[ "$1" == -c ]]
-then
-    configure=1
-    shift
-else
-    configure=0
-fi
-
 build() {
     local arch="$1"
     shift
     export build_dir="$PWD/build/$arch"
     export stage_dir="$PWD/stage/$arch"
-    if [[ "$configure" == 1 || ! -d "$build_dir" ]]
+    if [[ ! -f "$build_dir/config.status" ]]
     then
         mkdir -v -p "$build_dir" "$stage_dir"
         (
