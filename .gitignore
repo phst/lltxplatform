@@ -16,6 +16,7 @@ depcomp
 
 .sconsign.dblite
 
+lltxplatform.dll
 lltxplatform.so
 lualatex-platform.html
 

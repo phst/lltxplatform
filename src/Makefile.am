@@ -1,10 +1,10 @@
 AM_CFLAGS = -std=c89 \
             -pedantic \
-            -Wformat=2 -Wglobal-constructors -Winit-self -Werror-implicit-function-declaration -Wmissing-include-dirs \
+            -Wformat=2 -Winit-self -Werror-implicit-function-declaration -Wmissing-include-dirs \
             -Wswitch-default -Wswitch-enum -Wunused-parameter -Wunused -Wuninitialized -Wstrict-aliasing=2 -Wstrict-overflow=5 \
             -Wall -Wextra \
             -Wfloat-equal -Wdeclaration-after-statement -Wundef -Wshadow -Wunsafe-loop-optimizations -Wpointer-arith \
-            -Wbad-function-cast -Wc++-compat -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 \
+            -Wbad-function-cast -Wc++-compat -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion \
             -Waggregate-return -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations \
             -Wmissing-noreturn -Wmissing-format-attribute -Wpacked -Wpadded -Wredundant-decls -Wnested-externs -Wunreachable-code \
             -Winline -Wvolatile-register-var -Wdisabled-optimization \
@@ -22,6 +22,7 @@ lltxplatform_la_SOURCES += fonts_windows.c
 lltxplatform_la_LDFLAGS += -ladvapi32 -lshell32 -lshlwapi \
                            -no-undefined -export-symbols-regex luaopen_lltxplatform
 else
+AM_CFLAGS += -Wglobal-constructors -Wshorten-64-to-32
 if PLAT_OSX_10_6
 AM_CPPFLAGS = -DCF_EXCLUDE_CSTD_HEADERS
 AM_CFLAGS += -fno-common
