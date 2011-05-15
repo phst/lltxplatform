@@ -30,6 +30,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #include "fonts_impl.h"
 
@@ -71,7 +72,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
           }
           if (result == kATSIterationCompleted) {
             CFIndex cnt = CFArrayGetCount(names);
-            if (cnt > 0 && cnt == CFArrayGetCount(paths)) {
+            if (cnt > 0 && cnt < INT_MAX && cnt == CFArrayGetCount(paths)) {
               struct lltxplatform_fontinfo *array = (struct lltxplatform_fontinfo *) calloc((size_t) cnt, sizeof(struct lltxplatform_fontinfo));
               if (array != NULL) {
                 CFIndex i;
@@ -107,7 +108,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
                   }
                 }
                 *fonts = array;
-                *count = cnt;
+                *count = (unsigned int) cnt;
               }
             }
           }

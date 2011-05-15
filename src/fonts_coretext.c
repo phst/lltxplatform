@@ -40,7 +40,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
   CFArrayRef urls = CTFontManagerCopyAvailableFontURLs();
   if (urls != NULL) {
     CFIndex cnt = CFArrayGetCount(urls);
-    if (cnt > 0) {
+    if (cnt > 0 && cnt < INT_MAX) {
       struct lltxplatform_fontinfo *array = (struct lltxplatform_fontinfo *) calloc((size_t) cnt, sizeof(struct lltxplatform_fontinfo));
       if (array != NULL) {
         CFStringRef empty = CFSTR("");
@@ -94,7 +94,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
               }
             }
             *fonts = array;
-            *count = cnt;
+            *count = (unsigned int) cnt;
             CFRelease(prefix);
           }
           CFRelease(empty);
