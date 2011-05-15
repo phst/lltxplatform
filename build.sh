@@ -6,8 +6,8 @@ rm -f built-archs.lst
 
 build() {
     local arch="$1"
-    echo "Building for architecture $arch..."
     shift
+    echo "Building for architecture $arch..."
     export build_dir="$PWD/build/$arch"
     export stage_dir="$PWD/stage/$arch"
     if [[ ! -f "$build_dir/config.status" ]]
