@@ -12,17 +12,9 @@ build() {
     if [[ ! -f "$build_dir/config.status" ]]
     then
         mkdir -v -p "$build_dir" "$stage_dir"
-        (
-            set -e
-            cd "$build_dir"
-            ../../configure --prefix="$stage_dir" "$@"
-        )
+        (cd "$build_dir" && ../../configure "--prefix=$stage_dir" "$@")
     fi
-    (
-        set -e
-        cd "$build_dir"
-        make install
-    )
+    (cd "$build_dir" && make install)
     echo "$arch" >> built-archs.lst
 }
 
