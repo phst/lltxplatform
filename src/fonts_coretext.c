@@ -35,33 +35,33 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "fonts_impl.h"
 
 
-int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, unsigned int *count) {
+int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const fonts, unsigned int *const count) {
   int status = -1;
-  CFArrayRef urls = CTFontManagerCopyAvailableFontURLs();
+  const CFArrayRef urls = CTFontManagerCopyAvailableFontURLs();
   if (urls != NULL) {
-    CFIndex cnt = CFArrayGetCount(urls);
+    const CFIndex cnt = CFArrayGetCount(urls);
     if (cnt > 0 && cnt < INT_MAX) {
-      struct lltxplatform_fontinfo *array = (struct lltxplatform_fontinfo *) calloc((size_t) cnt, sizeof(struct lltxplatform_fontinfo));
+      struct lltxplatform_fontinfo *const array = (struct lltxplatform_fontinfo *) calloc((size_t) cnt, sizeof(struct lltxplatform_fontinfo));
       if (array != NULL) {
-        CFStringRef empty = CFSTR("");
+        const CFStringRef empty = CFSTR("");
         if (empty != NULL) {
-          CFStringRef prefix = CFSTR("postscript-name=");
+          const CFStringRef prefix = CFSTR("postscript-name=");
           if (prefix != NULL) {
-            CFIndex prefix_len = CFStringGetLength(prefix);
+            const CFIndex prefix_len = CFStringGetLength(prefix);
             CFIndex i;
             status = 0;
             for (i = 0; i < cnt; ++i) {
-              struct lltxplatform_fontinfo *info = &array[i];
-              CFURLRef url = (CFURLRef) CFArrayGetValueAtIndex(urls, i);
+              struct lltxplatform_fontinfo *const info = &array[i];
+              const CFURLRef url = (CFURLRef) CFArrayGetValueAtIndex(urls, i);
               info->name = NULL;
               info->path = NULL;
               if (url != NULL) {
-                CFStringRef path = CFURLCopyFileSystemPath(url, (CFURLPathStyle) kCFURLPOSIXPathStyle);
-                CFStringRef fragment = CFURLCopyFragment(url, empty);
+                const CFStringRef path = CFURLCopyFileSystemPath(url, (CFURLPathStyle) kCFURLPOSIXPathStyle);
+                const CFStringRef fragment = CFURLCopyFragment(url, empty);
                 if (path != NULL) {
-                  CFIndex size = CFStringGetMaximumSizeOfFileSystemRepresentation(path);
+                  const CFIndex size = CFStringGetMaximumSizeOfFileSystemRepresentation(path);
                   if (size > 0) {
-                    char *buffer = (char *) malloc((size_t) size);
+                    char *const buffer = (char *) malloc((size_t) size);
                     if (buffer != NULL) {
                       if (CFStringGetFileSystemRepresentation(path, buffer, size)) {
                         info->path = buffer;
@@ -72,14 +72,14 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
                 }
                 if (fragment != NULL) {
                   if (CFStringHasPrefix(fragment, prefix)) {
-                    CFIndex fragment_len = CFStringGetLength(fragment);
-                    CFRange range = CFRangeMake(prefix_len, fragment_len - prefix_len);
-                    CFStringRef name = CFStringCreateWithSubstring(NULL, fragment, range);
+                    const CFIndex fragment_len = CFStringGetLength(fragment);
+                    const CFRange range = CFRangeMake(prefix_len, fragment_len - prefix_len);
+                    const CFStringRef name = CFStringCreateWithSubstring(NULL, fragment, range);
                     if (name != NULL) {
-                      CFIndex name_len = CFStringGetLength(name);
-                      CFIndex size = CFStringGetMaximumSizeForEncoding(name_len, kCFStringEncodingUTF8) + 1;
+                      const CFIndex name_len = CFStringGetLength(name);
+                      const CFIndex size = CFStringGetMaximumSizeForEncoding(name_len, kCFStringEncodingUTF8) + 1;
                       if (size > 1) {
-                        char *buffer = (char *) malloc((size_t) size);
+                        char *const buffer = (char *) malloc((size_t) size);
                         if (buffer != NULL) {
                           if (CFStringGetCString(name, buffer, size, kCFStringEncodingUTF8)) {
                             info->name = buffer;
@@ -107,7 +107,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
 }
 
 
-int lltxplatform_get_inactive_fonts_impl(char ***fonts, unsigned int *count) {
+int lltxplatform_get_inactive_fonts_impl(char ***const fonts, unsigned int *const count) {
   *fonts = NULL;
   *count = 0;
   return 0;

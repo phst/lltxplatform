@@ -34,13 +34,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "fonts_impl.h"
 
-int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, unsigned int *count) {
+int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const fonts, unsigned int *const count) {
   int status = -1;
   ATSFontIterator iter = NULL;
   if (ATSFontIteratorCreate(kATSFontContextGlobal, NULL, NULL, kATSOptionFlagsRestrictedScope, &iter) == noErr) {
-    CFMutableArrayRef names = CFArrayCreateMutable(kCFAllocatorDefault, 0l, &kCFTypeArrayCallBacks);
+    const CFMutableArrayRef names = CFArrayCreateMutable(kCFAllocatorDefault, 0l, &kCFTypeArrayCallBacks);
     if (names != NULL) {
-      CFMutableArrayRef paths = CFArrayCreateMutable(kCFAllocatorDefault, 0l, &kCFTypeArrayCallBacks);
+      const CFMutableArrayRef paths = CFArrayCreateMutable(kCFAllocatorDefault, 0l, &kCFTypeArrayCallBacks);
       if (paths != NULL) {
         CFStringRef empty = CFSTR("");
         if (empty != NULL) {
@@ -124,7 +124,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
 }
 
 
-int lltxplatform_get_inactive_fonts_impl(char ***fonts, unsigned int *count) {
+int lltxplatform_get_inactive_fonts_impl(char ***const fonts, unsigned int *const count) {
   *fonts = NULL;
   *count = 0;
   return 0;

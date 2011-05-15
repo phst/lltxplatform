@@ -45,7 +45,7 @@ static const luaL_reg functions[] = {
 };
 
 
-int luaopen_lltxplatform(lua_State *L) {
+int luaopen_lltxplatform(lua_State *const L) {
   luaL_register(L, PACKAGE, functions);
   return 1;
 }

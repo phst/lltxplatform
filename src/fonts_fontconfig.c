@@ -33,24 +33,24 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "fonts_impl.h"
 
 
-int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, unsigned int *count) {
+int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const fonts, unsigned int *const count) {
   int status = -1;
-  FcPattern *pattern = FcPatternCreate();
+  const FcPattern *const pattern = FcPatternCreate();
   if (pattern != NULL) {
-    FcObjectSet *objects = FcObjectSetBuild(FC_FULLNAME, FC_FILE, NULL);
+    const FcObjectSet *const objects = FcObjectSetBuild(FC_FULLNAME, FC_FILE, NULL);
     if (objects != NULL) {
-      FcFontSet *list = FcFontList(NULL, pattern, objects);
+      const FcFontSet *const list = FcFontList(NULL, pattern, objects);
       if (list != NULL) {
         if (list->nfont > 0) {
-          unsigned int cnt = (unsigned int) list->nfont;
-          struct lltxplatform_fontinfo *array = (struct lltxplatform_fontinfo *) calloc((size_t) cnt, sizeof(struct lltxplatform_fontinfo));
+          const unsigned int cnt = (unsigned int) list->nfont;
+          struct lltxplatform_fontinfo *const array = (struct lltxplatform_fontinfo *) calloc((size_t) cnt, sizeof(struct lltxplatform_fontinfo));
           if (array != NULL) {
             unsigned int i;
             status = 0;
             for (i = 0; i < cnt; ++i) {
-              struct lltxplatform_fontinfo *info = &array[i];
-              FcPattern *font = list->fonts[i];
-              FcChar8 *value;
+              struct lltxplatform_fontinfo *const info = &array[i];
+              FcPattern *const font = list->fonts[i];
+              FcChar8 *const value;
               if (FcPatternGetString(font, FC_FULLNAME, 0, &value) == FcResultMatch) {
                 info->name = strdup((char *) value);
               } else {
@@ -80,7 +80,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
 }
 
 
-int lltxplatform_get_inactive_fonts_impl(char ***fonts, unsigned int *count) {
+int lltxplatform_get_inactive_fonts_impl(char ***const fonts, unsigned int *const count) {
   *fonts = NULL;
   *count = 0;
   return 0;

@@ -35,7 +35,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "fonts_impl.h"
 
 
-int lltxplatform_get_installed_fonts(lua_State *L) {
+int lltxplatform_get_installed_fonts(lua_State *const L) {
   struct lltxplatform_fontinfo *fonts = NULL;
   unsigned int count = 0;
   int results = 0;
@@ -43,7 +43,7 @@ int lltxplatform_get_installed_fonts(lua_State *L) {
     unsigned int i;
     lua_createtable(L, (signed int) count, 0);
     for (i = 0; i < count; ++i) {
-      const struct lltxplatform_fontinfo *info = &fonts[i];
+      const struct lltxplatform_fontinfo *const info = &fonts[i];
       lua_createtable(L, 0, (info->name != NULL) + (info->path != NULL));
       if (info->name != NULL) {
         lua_pushstring(L, "name");
@@ -68,7 +68,7 @@ int lltxplatform_get_installed_fonts(lua_State *L) {
 }
 
 
-int lltxplatform_get_inactive_fonts(lua_State *L) {
+int lltxplatform_get_inactive_fonts(lua_State *const L) {
   char **fonts = NULL;
   unsigned int count = 0;
   int results = 0;
@@ -76,7 +76,7 @@ int lltxplatform_get_inactive_fonts(lua_State *L) {
     unsigned int i;
     lua_createtable(L, (signed int) count, 0);
     for (i = 0; i < count; ++i) {
-      char *name = fonts[i];
+      char *const name = fonts[i];
       if (name != NULL) {
         lua_pushstring(L, name);
         free(name);
