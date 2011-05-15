@@ -60,7 +60,7 @@ build "$native_arch" "$@"
 
 case "$native_arch" in
     x86_64-darwin)
-        cross-osx universal-darwin i386-apple-darwin9.0 --disable-dependency-tracking "$@"
+        cross_osx universal-darwin i386-apple-darwin9.0 --disable-dependency-tracking "$@"
 	;;
     *-linux)
 	cross_windows "$@"
