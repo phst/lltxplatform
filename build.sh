@@ -6,6 +6,7 @@ rm -f built-archs.lst
 
 build() {
     local arch="$1"
+    echo "Building for architecture $arch..."
     shift
     export build_dir="$PWD/build/$arch"
     export stage_dir="$PWD/stage/$arch"
@@ -16,6 +17,41 @@ build() {
     fi
     (cd "$build_dir" && make install)
     echo "$arch" >> built-archs.lst
+    echo
+}
+
+cross_windows() {
+    for host in i{6..3}86-mingw32{,msvc}
+    do
+	if which "$host-gcc" > /dev/null 2>&1
+	then
+	    build win32 "--host=$host" "$@"
+	    break
+	fi
+    done
+}
+
+cross_osx() {
+    local arch="$1"
+    local host="$2"
+    shift 2
+    build "$arch" "--host=$host" "$@"
+}
+
+cross_linux() {
+    local arch
+    while IFS=';' read -r dir flag
+    do
+	arch=''
+	if [[ "$dir" != . && -n "$flag" ]]
+	then
+	    case "$dir" in
+		32) arch=i386-linux ;;
+		64) arch=x86_64-linux ;;
+	    esac
+	    [[ -n "$arch" ]] && build "$arch" "--host=$arch" "CC=gcc -${flag:1}" "$@"
+	fi
+    done < <(gcc -print-multi-lib)
 }
 
 native_arch="$(bash texlive-arch.sh)"
@@ -24,13 +60,10 @@ build "$native_arch" "$@"
 
 case "$native_arch" in
     x86_64-darwin)
-        build universal-darwin --disable-dependency-tracking --host=i386-apple-darwin9.0 "$@" ;;
-    x86_64-linux)
-	prefix=i486-mingw32
-	which "$prefix-gcc" > /dev/null && build win32 "--host=$prefix" "$@"
-	build i386-linux --host=i386-linux 'CC=gcc -m32' "$@" ;;
-    i386-linux)
-        prefix=i586-mingw32msvc
-        which "$prefix-gcc" > /dev/null && build win32 "--host=$prefix" "$@"
-        build x86_64-linux --host=x86_64-linux 'CC=gcc -m64' "$@" ;;
+        cross-osx universal-darwin i386-apple-darwin9.0 --disable-dependency-tracking "$@"
+	;;
+    *-linux)
+	cross_windows "$@"
+	cross_linux "$@"
+	;;
 esac
