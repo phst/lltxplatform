@@ -48,8 +48,9 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
           CFStringRef prefix = CFSTR("postscript-name=");
           if (prefix != NULL) {
             CFIndex prefix_len = CFStringGetLength(prefix);
+            CFIndex i;
             status = 0;
-            for (CFIndex i = 0; i < cnt; ++i) {
+            for (i = 0; i < cnt; ++i) {
               struct lltxplatform_fontinfo *info = &array[i];
               CFURLRef url = (CFURLRef) CFArrayGetValueAtIndex(urls, i);
               info->name = NULL;
@@ -72,7 +73,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
                 if (fragment != NULL) {
                   if (CFStringHasPrefix(fragment, prefix)) {
                     CFIndex fragment_len = CFStringGetLength(fragment);
-                    CFRange range = {prefix_len, fragment_len - prefix_len};
+                    CFRange range = CFRangeMake(prefix_len, fragment_len - prefix_len);
                     CFStringRef name = CFStringCreateWithSubstring(NULL, fragment, range);
                     if (name != NULL) {
                       CFIndex name_len = CFStringGetLength(name);

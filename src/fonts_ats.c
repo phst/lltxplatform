@@ -74,8 +74,9 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, 
             if (cnt > 0 && cnt == CFArrayGetCount(paths)) {
               struct lltxplatform_fontinfo *array = (struct lltxplatform_fontinfo *) calloc((size_t) cnt, sizeof(struct lltxplatform_fontinfo));
               if (array != NULL) {
+                CFIndex i;
                 status = 0;
-                for (CFIndex i = 0; i < cnt; ++i) {
+                for (i = 0; i < cnt; ++i) {
                   struct lltxplatform_fontinfo *info = &array[i];
                   CFStringRef name = (CFStringRef) CFArrayGetValueAtIndex(names, i);
                   CFStringRef path = (CFStringRef) CFArrayGetValueAtIndex(paths, i);
