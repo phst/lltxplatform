@@ -1,11 +1,15 @@
-AM_CFLAGS = -std=c99 \
-            -Werror -pedantic -Wall -Wextra -Winit-self -Wformat=2 -Wunused -Wuninitialized -Wundef \
-            -Wstrict-aliasing=1 -Wstrict-overflow=5 -Wfloat-equal -Wdeclaration-after-statement \
-            -Wshadow -Wunsafe-loop-optimizations -Wbad-function-cast -Wc++-compat -Wcast-qual -Wcast-align \
-            -Wwrite-strings -Wconversion -Waggregate-return -Wstrict-prototypes -Wold-style-definition \
-            -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wmissing-format-attribute -Wpacked \
-            -Wredundant-decls -Wnested-externs -Winline -Wdisabled-optimization -Wstack-protector \
-            -g2 -O3
+AM_CFLAGS = -std=c89 \
+            -pedantic \
+            -Wformat=2 -Wglobal-constructors -Winit-self -Werror-implicit-function-declaration -Wmissing-include-dirs \
+            -Wswitch-default -Wswitch-enum -Wunused-parameter -Wunused -Wuninitialized -Wstrict-aliasing=2 -Wstrict-overflow=5 \
+            -Wall -Wextra \
+            -Wfloat-equal -Wdeclaration-after-statement -Wundef -Wshadow -Wunsafe-loop-optimizations -Wpointer-arith \
+            -Wbad-function-cast -Wc++-compat -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 \
+            -Waggregate-return -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations \
+            -Wmissing-noreturn -Wmissing-format-attribute -Wpacked -Wpadded -Wredundant-decls -Wnested-externs -Wunreachable-code \
+            -Winline -Wvolatile-register-var -Wdisabled-optimization \
+            -Werror \
+            -Wstack-protector
 
 lib_LTLIBRARIES = lltxplatform.la
 lltxplatform_la_SOURCES = main.c malloc.c fonts.h fonts.c fonts_impl.h
