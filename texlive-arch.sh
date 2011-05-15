@@ -7,7 +7,7 @@ case "$MACHTYPE" in
         echo win32 ;;
     x86_64-*-darwin10.*)
         echo x86_64-darwin ;;
-    i386-*-darwin*)
+    *-*-darwin*)
         echo universal-darwin ;;
     x86_64-*-linux*)
         echo x86_64-linux ;;
