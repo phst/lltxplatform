@@ -22,17 +22,18 @@ lltxplatform_la_SOURCES += fonts_windows.c
 lltxplatform_la_LDFLAGS += -ladvapi32 -lshell32 -lshlwapi \
                            -no-undefined -export-symbols-regex luaopen_lltxplatform
 else
-AM_CFLAGS += -Wglobal-constructors -Wshorten-64-to-32
 if PLAT_OSX_10_6
 AM_CPPFLAGS = -DCF_EXCLUDE_CSTD_HEADERS
-AM_CFLAGS += -fno-common
+AM_CFLAGS += -fno-common \
+             -Wglobal-constructors -Wshorten-64-to-32
 lltxplatform_la_SOURCES += fonts_coretext.c
 lltxplatform_la_LDFLAGS += -framework CoreFoundation -framework ApplicationServices \
                            -bundle -undefined dynamic_lookup
 else
 if PLAT_OSX_10_5
 AM_CPPFLAGS = -DCF_EXCLUDE_CSTD_HEADERS
-AM_CFLAGS += -fno-common -arch i386 -arch ppc -force_cpusubtype_ALL
+AM_CFLAGS += -fno-common -arch i386 -arch ppc -force_cpusubtype_ALL \
+             -Wglobal-constructors -Wshorten-64-to-32
 lltxplatform_la_SOURCES += fonts_ats.c
 lltxplatform_la_LDFLAGS += -framework CoreFoundation -framework ApplicationServices \
                            -bundle -undefined dynamic_lookup
