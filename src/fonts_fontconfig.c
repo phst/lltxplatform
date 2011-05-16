@@ -35,11 +35,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const fonts, unsigned int *const count) {
   int status = -1;
-  const FcPattern *const pattern = FcPatternCreate();
+  FcPattern *const pattern = FcPatternCreate();
   if (pattern != NULL) {
-    const FcObjectSet *const objects = FcObjectSetBuild(FC_FULLNAME, FC_FILE, NULL);
+    FcObjectSet *const objects = FcObjectSetBuild(FC_FULLNAME, FC_FILE, NULL);
     if (objects != NULL) {
-      const FcFontSet *const list = FcFontList(NULL, pattern, objects);
+      FcFontSet *const list = FcFontList(NULL, pattern, objects);
       if (list != NULL) {
         if (list->nfont > 0) {
           const unsigned int cnt = (unsigned int) list->nfont;
@@ -50,7 +50,7 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const f
             for (i = 0; i < cnt; ++i) {
               struct lltxplatform_fontinfo *const info = &array[i];
               FcPattern *const font = list->fonts[i];
-              FcChar8 *const value;
+              FcChar8 *value;
               if (FcPatternGetString(font, FC_FULLNAME, 0, &value) == FcResultMatch) {
                 info->name = strdup((char *) value);
               } else {
