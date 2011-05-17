@@ -25,7 +25,7 @@ cross_windows() {
     do
 	if which "$host-gcc" > /dev/null 2>&1
 	then
-	    build win32 "--host=$host" "$@"
+	    build win32 "--build=$MACHTYPE" "--host=$host" "$@"
 	    break
 	fi
     done
@@ -35,7 +35,7 @@ cross_osx() {
     local arch="$1"
     local host="$2"
     shift 2
-    build "$arch" "--host=$host" "$@"
+    build "$arch" "--build=$MACHTYPE" "--host=$host" "$@"
 }
 
 cross_linux() {
