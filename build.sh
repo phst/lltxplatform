@@ -42,15 +42,18 @@ cross_linux() {
     local arch
     while IFS=';' read -r dir flag
     do
-	arch=''
-	if [[ "$dir" != . && -n "$flag" ]]
-	then
-	    case "$dir" in
-		32) arch=i386-linux ;;
-		64) arch=x86_64-linux ;;
-	    esac
-	    [[ -n "$arch" ]] && build "$arch" "--host=$arch" "CC=gcc -${flag:1}" "$@"
-	fi
+        arch=''
+        if [[ "$dir" != . && -n "$flag" ]]
+        then
+            case "$dir" in
+	        32) arch=i386-linux ;;
+	        64) arch=x86_64-linux ;;
+            esac
+            local opt="${flag:1}"
+            [[ -n "$arch" ]] &&
+            gcc "-$opt" -lfontconfig -o /dev/null -x c - <<< 'int main(void) { }' 2> /dev/null &&
+            build "$arch" "--build=$MACHTYPE" "--host=$arch" "CROSS_X86=${flag:1}" "$@"
+        fi
     done < <(gcc -print-multi-lib)
 }
 

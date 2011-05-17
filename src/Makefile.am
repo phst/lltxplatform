@@ -43,3 +43,8 @@ lltxplatform_la_SOURCES += fonts_fontconfig.c
 endif
 endif
 endif
+
+if HAVE_CROSS_X86
+AM_CFLAGS += -$(CROSS_X86)
+lltxplatform_la_LDFLAGS += -$(CROSS_X86()
+endif

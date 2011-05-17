@@ -11,6 +11,8 @@ AC_CANONICAL_HOST
 AC_PROG_CC
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
+AC_ARG_VAR([CROSS_X86], [machine flag for building for a different x86 architecture])
+AM_CONDITIONAL([HAVE_CROSS_X86], [test -n "$CROSS_X86"])
 
 AC_C_CONST
 AC_TYPE_SIZE_T
