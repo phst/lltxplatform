@@ -145,13 +145,15 @@ related to operating system font listing:
   The array is in arbitrary order, and duplicates are possible.
 
 * ``get_inactive_fonts()`` returns either ``nil`` (in the case of an error), or
-  an array of strings each of which represents one font treated as inactive by
-  the operating system.  The concept of *inactive fonts* exists only on
-  Windows 7 and upwards; the inactive fonts are still present and usable, but
-  are hidden in standard UI elements.  The array of inactive fonts is in
-  arbitrary order and the font names are not necessarily unique.  There is no
-  guarantee that the names returned by ``get_inactive_fonts()`` correspond to
-  actual fonts installed in the system, or to the font names returned by
-  ``get_installed_fonts()``.  The font names are encoded in UTF-8.
+  an array of strings or booleans each of which represents one font treated as
+  inactive by the operating system.  The concept of *inactive fonts* exists
+  only on Windows 7 and upwards; the inactive fonts are still present and
+  usable, but are hidden in standard UI elements.  If a font name could not be
+  retrieved, the corresponding array item is set to ``false``.  The array of
+  inactive fonts is in arbitrary order and the font names are not necessarily
+  unique.  There is no guarantee that the names returned by
+  ``get_inactive_fonts()`` correspond to actual fonts installed in the system,
+  or to the font names returned by ``get_installed_fonts()``.  The font names
+  are encoded in UTF-8.
 
 .. _ANSI code page: http://en.wikipedia.org/wiki/Windows_code_page
