@@ -25,6 +25,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "config.h"
 #endif
 
+#include <sdkddkver.h>
 #include <windows.h>
 #include <shlobj.h>
 #include <shlwapi.h>
