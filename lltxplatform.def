@@ -1,0 +1,2 @@
+LIBRARY lltxplatform
+EXPORTS luaopen_lltxplatform
