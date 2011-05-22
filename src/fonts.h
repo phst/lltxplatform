@@ -26,7 +26,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <lua.h>
 
-extern int lltxplatform_get_installed_fonts(lua_State *L);
-extern int lltxplatform_get_inactive_fonts(lua_State *L);
+extern int lltxplatform_get_installed_fonts(lua_State *const L);
+extern int lltxplatform_get_inactive_fonts(lua_State *const L);
 
 #endif

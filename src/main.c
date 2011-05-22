@@ -35,7 +35,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 
-extern int luaopen_lltxplatform(lua_State *L);
+extern int luaopen_lltxplatform(lua_State *const L);
 
 
 static const luaL_reg functions[] = {

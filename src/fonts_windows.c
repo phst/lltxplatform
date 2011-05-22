@@ -37,9 +37,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "fonts_impl.h"
 
 
-static char *encode(LPCWSTR string, unsigned int length, UINT encoding, DWORD flags, LPBOOL default_char_used);
-static char *encode_utf8(LPCWSTR string, unsigned int length);
-static char *encode_legacy(LPCWSTR string, unsigned int length);
+static char *encode(const LPCWSTR string, const unsigned int length, const UINT encoding, const DWORD flags, const LPBOOL default_char_used);
+static char *encode_utf8(const LPCWSTR string, const unsigned int length);
+static char *encode_legacy(const LPCWSTR string, const unsigned int length);
 
 
 int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const fonts, unsigned int *const count) {
@@ -70,8 +70,12 @@ int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const f
               value[length] = L'\0';
               if (PathIsRelativeW(value)) {
                 WCHAR buffer[MAX_PATH];
+#ifdef _MSC_VER
+				if (wcscpy_s(buffer, MAX_PATH, directory) == 0 && PathAppendW(buffer, value)) {
+#else
                 wcscpy(buffer, directory);
                 if (PathAppendW(buffer, value)) {
+#endif
                   info->path = encode_legacy(buffer, (unsigned int) wcslen(buffer));
                 }
               } else {

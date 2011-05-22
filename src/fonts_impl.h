@@ -29,7 +29,7 @@ struct lltxplatform_fontinfo {
   char *path;
 };
 
-extern int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **fonts, unsigned int *count);
-extern int lltxplatform_get_inactive_fonts_impl(char ***fonts, unsigned int *count);
+extern int lltxplatform_get_installed_fonts_impl(struct lltxplatform_fontinfo **const fonts, unsigned int *const count);
+extern int lltxplatform_get_inactive_fonts_impl(char ***const fonts, unsigned int *const count);
 
 #endif

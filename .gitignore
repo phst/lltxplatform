@@ -3,6 +3,12 @@
 *.log
 *.zip
 
+Debug/
+Release/
+ipch/
+*.suo
+*.sdf
+
 autom4te.cache/
 aclocal.m4
 configure
