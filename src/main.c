@@ -34,11 +34,14 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define PACKAGE "lltxplatform"
 #endif
 
+#undef luaL_register
+#define luaL_register(L,n,f) \
+	{ if ((n) == NULL) luaL_setfuncs(L,f,0); else luaL_newlib(L,f); }
 
 extern int luaopen_lltxplatform(lua_State *const L);
 
 
-static const luaL_reg functions[] = {
+static const luaL_Reg functions[] = {
   {"get_installed_fonts", lltxplatform_get_installed_fonts},
   {"get_inactive_fonts", lltxplatform_get_inactive_fonts},
   {NULL, NULL}

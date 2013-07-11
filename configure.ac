@@ -1,12 +1,15 @@
 AC_PREREQ(2.61)
 AC_INIT([lltxplatform], [0.1])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AM_INIT_AUTOMAKE([-Wall -Werror foreign -Wno-portability])
 
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile])
 
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
+
+m4_pattern_allow([AM_PROG_AR])
+AM_PROG_AR
 
 AC_PROG_CC
 AC_LIBTOOL_WIN32_DLL
@@ -58,3 +61,5 @@ AM_CONDITIONAL([PLAT_OSX_10_5], [test osx105 = "$os_type"])
 AM_CONDITIONAL([PLAT_LINUX], [test linux = "$os_type"])
 
 AC_OUTPUT
+
+AC_CONFIG_MACRO_DIR([m4])
