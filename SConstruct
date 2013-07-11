@@ -48,7 +48,7 @@ plat_name, plat_ext = plat_info[sys.platform]
 
 if sys.platform == "darwin":
     env.Append(CPPDEFINES=["CF_OPEN_SOURCE", "CF_EXCLUDE_CSTD_HEADERS"],
-               FRAMEWORKS=["CoreFoundation", "ApplicationServices"]
+               FRAMEWORKS=["CoreFoundation", "ApplicationServices"],
                CCFLAGS=["-fno-common"], LINKFLAGS=["-undefined", "dynamic_lookup"])
 elif sys.platform == "win32":
     env.Append(CPPDEFINES=["NOMINMAX", "STRICT", "UNICODE", "_UNICODE", "WIN32_LEAN_AND_MEAN",

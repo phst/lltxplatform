@@ -22,6 +22,8 @@
 SUBDIRS = src
 dist_doc_DATA = README
 
+ACLOCAL_AMFLAGS= -Im4
+
 if HAVE_RST2HTML
 dist_doc_DATA += lualatex-platform.html
 lualatex-platform.html: README.rst
