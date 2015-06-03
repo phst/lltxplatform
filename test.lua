@@ -1,4 +1,4 @@
-require "lltxplatform"
+local lltxplatform = require "lltxplatform"
 
 local fonts = lltxplatform.get_installed_fonts()
 
