@@ -19,6 +19,8 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+AM_CPPFLAGS = -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2
+
 AM_CFLAGS = -std=c89 \
             -pedantic \
             -Wformat=2 -Winit-self -Werror-implicit-function-declaration -Wmissing-include-dirs \
@@ -29,22 +31,21 @@ AM_CFLAGS = -std=c89 \
             -Waggregate-return -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations \
             -Wmissing-noreturn -Wmissing-format-attribute -Wpacked -Wpadded -Wredundant-decls -Wnested-externs -Wunreachable-code \
             -Winline -Wvolatile-register-var -Wdisabled-optimization \
-            -Werror \
-            -Wstack-protector
+            -Wstack-protector -fstack-protector-strong $(LUA52_CFLAGS)
 
 lib_LTLIBRARIES = lltxplatform.la
 lltxplatform_la_SOURCES = main.c malloc.c fonts.h fonts.c fonts_impl.h
-lltxplatform_la_LDFLAGS = -module
+lltxplatform_la_LDFLAGS = -module -Wl,-z,relro -Wl,-z,now -fPIE -pie $(LUA52_LIBS)
 
 if PLAT_WINDOWS
-AM_CPPFLAGS = -DNOMINMAX -DSTRICT -DUNICODE -D_UNICODE -DWIN32_LEAN_AND_MEAN \
+AM_CPPFLAGS += -DNOMINMAX -DSTRICT -DUNICODE -D_UNICODE -DWIN32_LEAN_AND_MEAN \
               -DNTDDI_VERSION=0x05010000 -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -D_WIN32_IE=0x0600
 lltxplatform_la_SOURCES += fonts_windows.c
 lltxplatform_la_LDFLAGS += -ladvapi32 -lshell32 -lshlwapi \
                            -no-undefined -export-symbols-regex luaopen_lltxplatform
 else
 if PLAT_OSX_10_6
-AM_CPPFLAGS = -DCF_EXCLUDE_CSTD_HEADERS
+AM_CPPFLAGS += -DCF_EXCLUDE_CSTD_HEADERS
 AM_CFLAGS += -fno-common \
              -Wglobal-constructors -Wshorten-64-to-32
 lltxplatform_la_SOURCES += fonts_coretext.c
@@ -52,15 +53,17 @@ lltxplatform_la_LDFLAGS += -framework CoreFoundation -framework ApplicationServi
                            -bundle -undefined dynamic_lookup
 else
 if PLAT_OSX_10_5
-AM_CPPFLAGS = -DCF_EXCLUDE_CSTD_HEADERS
+AM_CPPFLAGS += -DCF_EXCLUDE_CSTD_HEADERS
 AM_CFLAGS += -fno-common -arch i386 -arch ppc -force_cpusubtype_ALL \
              -Wglobal-constructors -Wshorten-64-to-32
 lltxplatform_la_SOURCES += fonts_ats.c
 lltxplatform_la_LDFLAGS += -framework CoreFoundation -framework ApplicationServices \
                            -bundle -undefined dynamic_lookup
 else
-AM_CPPFLAGS = -D_XOPEN_SOURCE=500
+AM_CPPFLAGS += -D_XOPEN_SOURCE=500
+AM_CFLAGS +=  $(FONTCONFIG_CFLAGS)
 lltxplatform_la_SOURCES += fonts_fontconfig.c
+lltxplatform_la_LDFLAGS += $(FONTCONFIG_LIBS)
 endif
 endif
 endif
