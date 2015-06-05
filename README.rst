@@ -62,7 +62,7 @@ the commands::
 
 The standard C headers and the Lua headers (``lua.h`` etc.) must be present in
 the include path.  On Windows, the compiler needs to access the Lua import
-library (``lua51.lib`` or ``liblua51.a``), which must be located in the library
+library (``lua52.lib`` or ``liblua52.a``), which must be located in the library
 search path.  On Linux, the compiler needs to access the FontConfig_ header
 files (``fontconfig/fontconfig.h``) and library (``libfontconfig.so``), which
 must be present in the respective search paths.  Run ``./configure --help`` for
@@ -71,7 +71,7 @@ more options.
 After compiling, make sure that the files ``lualatex-platform.sty``,
 ``lualatex-platform.lua``, and ``lltxplatform.(dll|so)`` can be found by
 LuaLaTeX.  On Windows, the native library must be able to find the Lua runtime
-library ``lua51.dll``.
+library ``lua52.dll``.
 
 .. _hosted: https://github.com/phst/lltxplatform
 .. _issue tracker: https://github.com/phst/lltxplatform/issues
@@ -102,11 +102,6 @@ or, from Lua::
 
 After the module has been loaded, the table ``lualatex.platform`` contains the
 functions described below.
-
-Note that on OS X, loading extension modules currently requires_ a
-custom-build LuaTeX binary.
-
-.. _requires: http://tracker.luatex.org/view.php?id=555
 
 
 Querying system fonts
