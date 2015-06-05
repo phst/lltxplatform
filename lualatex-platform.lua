@@ -33,15 +33,16 @@ local error, warning, info, log = luatexbase.provides_module {
 local pcall = pcall
 local require = require
 
-module "lualatex.platform"
+lualatex_platform = lualatex_platform or {}
+local lualatex_platform = lualatex_platform
 
 local status, native = pcall(require, "lltxplatform")
 
 if status then
-   get_installed_fonts = native.get_installed_fonts
-   get_inactive_fonts = native.get_inactive_fonts
+   lualatex_platform.get_installed_fonts = native.get_installed_fonts
+   lualatex_platform.get_inactive_fonts = native.get_inactive_fonts
 else
-   function get_installed_fonts() end
-   function get_inactive_fonts() end
+   lualatex_platform.get_installed_fonts = function () return nil end
+   lualatex_platform.get_inactive_fonts = function () return nil end
    error(native)
 end
